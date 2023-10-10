@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CowRequest;
 use App\Models\Cow;
 use App\Enums\Breeds;
 
@@ -33,20 +34,20 @@ class CowController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CowRequest $request)
     {
         //var_dump($request->all());die;
         //var_dump($request->cow_name);die;
-        $cow = new Cow();
-        $cow->cow_name = $request->cow_name;
-        $cow->cow_alias = $request->cow_alias;
-        $cow->cow_code = $request->cow_code;
-        $cow->cow_birthdate = $request->cow_birthdate;
-        $cow->cow_weight = $request->cow_weight;
-        $cow->cow_height = $request->cow_height;
-        $cow->cow_breed = $request->cow_breed;
-        $cow->save();
-
+        //$cow = new Cow();
+        // $cow->cow_name = $request->cow_name;
+        // $cow->cow_alias = $request->cow_alias;
+        // $cow->cow_code = $request->cow_code;
+        // $cow->cow_birthdate = $request->cow_birthdate;
+        // $cow->cow_weight = $request->cow_weight;
+        // $cow->cow_height = $request->cow_height;
+        // $cow->cow_breed = $request->cow_breed;
+        // $cow->save();
+        Cow::create($request->all());
         return redirect('/cows');
     }
 
@@ -74,16 +75,16 @@ class CowController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cow $cow)
+    public function update(CowRequest $request, Cow $cow)
     {
-        $cow->cow_name = $request->cow_name;
-        $cow->cow_alias = $request->cow_alias;
-        $cow->cow_code = $request->cow_code;
-        $cow->cow_birthdate = $request->cow_birthdate;
-        $cow->cow_weight = $request->cow_weight;
-        $cow->cow_height = $request->cow_height;
-        $cow->cow_breed = $request->cow_breed;
-        $cow->update();
+        // $cow->cow_name = $request->cow_name;
+        // $cow->cow_alias = $request->cow_alias;
+        // $cow->cow_code = $request->cow_code;
+        // $cow->cow_birthdate = $request->cow_birthdate;
+        // $cow->cow_weight = $request->cow_weight;
+        // $cow->cow_height = $request->cow_height;
+        // $cow->cow_breed = $request->cow_breed;
+        $cow->update($request->all());
 
         return redirect('/cows');
     }
@@ -91,8 +92,9 @@ class CowController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cow $cow)
     {
-        //
+        $cow->delete();
+        return back();
     }
 }
