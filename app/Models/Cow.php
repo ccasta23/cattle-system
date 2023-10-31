@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Cow extends Model
 {
-    //Trait 
+    //Trait
     use HasFactory;
 
     // Primary Key
@@ -23,4 +24,16 @@ class Cow extends Model
         'cow_height',
         'cow_breed'
     ];
+
+    public function vaccines():BelongsToMany{
+        return  $this->belongsToMany(
+                Vaccine::class,
+                'cow_vaccine',
+                'fk_cow_id',
+                'fk_vaccine_id'
+            )->withPivot(
+                'cow_vaccine_observations',
+                'cow_vaccine_date'
+            )->withTimestamps();
+    }
 }

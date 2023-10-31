@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CowRequest;
 use App\Models\Cow;
 use App\Enums\Breeds;
+use Illuminate\Support\Facades\Mail;
 
 class CowController extends Controller
 {
@@ -47,16 +48,26 @@ class CowController extends Controller
         // $cow->cow_height = $request->cow_height;
         // $cow->cow_breed = $request->cow_breed;
         // $cow->save();
-        Cow::create($request->all());
+        $cow = Cow::create($request->all());
+
+        $cow->load('vaccines');
+
+        //dd($cow);
+
+        Mail::to('carlos.castaneda@ucaldas.edu.co')
+            ->send(new \App\Mail\CreateCowMail($cow));
+
         return redirect('/cows');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Cow $cow)
     {
-        //
+        return view('cows.show', [
+            'cow' => $cow
+        ]);
     }
 
     /**

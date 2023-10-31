@@ -47,15 +47,25 @@ Route::get('/test', function(){
     ]);
 });
 
-Route::get('/test-controller', 
-[\App\Http\Controllers\TestController::class, 'test'] 
+Route::get('/test-controller',
+[\App\Http\Controllers\TestController::class, 'test']
 );
 
-Route::get('/test-db', 
-[\App\Http\Controllers\TestController::class, 'testDB'] 
+Route::get('/test-db',
+[\App\Http\Controllers\TestController::class, 'testDB']
 );
 
 Route::resource(
-    'cows', 
+    'cows',
     App\Http\Controllers\CowController::class
-);
+)->middleware('auth');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

@@ -1,5 +1,9 @@
-@extends('layouts.base')
-@section('content') {{-- @yield('content') --}}
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Cows') }}
+        </h2>
+    </x-slot>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -17,6 +21,7 @@
                         <th scope="col">Weight</th>
                         <th scope="col">Height</th>
                         <th scope="col">Breed</th>
+                        <th scope="col">Show</th>
                         <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                     </tr>
@@ -33,10 +38,11 @@
                             <td>{{$cow->cow_height}} CM</td>
                             <td>{{$cow->cow_breed}}</td>
                             {{-- <td><a class="btn btn-success" href="/cows/{{$cow->id_cow}}/edit">Edit</td> --}}
-                            <td><a class="btn btn-success" href="{{route('cows.edit', $cow)}}"><i class="fa-solid fa-pen-to-square"></i></td>
+                            <td><a class="btn btn-primary" href="{{route('cows.show', $cow)}}"><i class="fa-solid fa-eye"></i></a></td>
+                            <td><a class="btn btn-success" href="{{route('cows.edit', $cow)}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
                             <td>
-                                <form 
-                                    action="{{route('cows.destroy', $cow)}}" 
+                                <form
+                                    action="{{route('cows.destroy', $cow)}}"
                                     method="post"
                                     onsubmit="return confirm('Are you sure?')"
                                 >
@@ -55,4 +61,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-app-layout>
